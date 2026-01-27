@@ -92,8 +92,6 @@ const Roadmap = () => {
   return (
     <section 
       ref={sectionRef} 
-      // CHANGE HERE: Removed 'bg-gradient-to-b...' 
-      // Now it has NO background color, just like Hero.jsx
       className="py-24 px-6 md:px-12 overflow-hidden" 
       id="journey"
     >
@@ -118,7 +116,7 @@ const Roadmap = () => {
 
         {/* 2. Dynamic ORANGE Line */}
         <div 
-            className="absolute left-8 md:left-1/2 top-0 w-1.5 bg-orange-500 transform md:-translate-x-1/2 rounded-full transition-all duration-100 ease-linear shadow-[0_0_10px_rgba(249,115,22,0.6)]"
+            className="absolute left-8 md:left-1/2 top-0 w-1.5 bg-orange-500 transform md:-translate-x-1/2 rounded-full transition-all duration-90 ease-linear shadow-[0_0_10px_rgba(249,115,22,0.6)]"
             style={{ height: `${lineHeight}%` }}
         ></div>
 
