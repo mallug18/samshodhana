@@ -34,7 +34,7 @@ function App() {
       </div>
       
       {/* Simple Footer */}
-      <footer className="text-center py-8 text-gray-600 text-sm">
+      <footer className="text-center py-8 text-gray-60 text-sm bg-indigo/50">
         © 2026 SamShoDhana Program. All rights reserved.
       </footer>
     </div>

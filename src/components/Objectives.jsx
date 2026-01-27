@@ -1,141 +1,160 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import objBg from '../assets/obj.png'; // Ensure this path is correct
 
 const Objectives = () => {
+  const sectionRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   const objectives = [
     {
       id: 1,
       title: "3,000+ Tech Solutions",
       desc: "Create innovative, technology-enabled solutions that directly address real-time challenges faced by rural MSMEs across Karnataka.",
-      icon: "💡"
     },
     {
       id: 2,
       title: "1,550+ Scalable Products",
       desc: "Design and deploy market-ready, accessible, and scalable tech products that support MSMEs in improving productivity and efficiency.",
-      icon: "🚀"
     },
     {
       id: 3,
-      title: "Innovation Capacity",
+      title: "Strengthen Innovation",
       desc: "Enable rural enterprises to adopt digital tools, automation, and emerging technologies to enhance operational capabilities.",
-      icon: "⚙️"
     },
     {
       id: 4,
       title: "Future-Ready Talent",
-      desc: "Train and certify 5,000+ young professionals and grassroots innovators with advanced technology skills for digital transformation.",
-      icon: "🎓"
+      desc: "Train and certify 5,000+ young professionals and grassroots innovators with advanced technology skills.",
     },
     {
       id: 5,
       title: "Economic Growth",
       desc: "Drive inclusive and sustainable economic development by bridging technology gaps and fostering entrepreneurship.",
-      icon: "📈"
     },
     {
       id: 6,
       title: "Collaborative Innovation",
-      desc: "Build a statewide ecosystem bringing together academia, industry, startups, and government to co-create impactful solutions.",
-      icon: "🤝"
+      desc: "Build a statewide ecosystem bringing together academia, industry, startups, and government bodies.",
     },
     {
       id: 7,
       title: "Affordable Technology",
       desc: "Ensure solutions remain cost-effective and accessible, especially for micro and nano enterprises with limited resources.",
-      icon: "💰"
     }
   ];
 
-  return (
-    <section className="relative px-6 md:px-12 py-20 overflow-hidden" id="objectives">
+  // 1. SCROLL PROGRESS LOGIC (Calculates strictly based on this section's position)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
       
-      {/* BACKGROUND ANIMATED SHAPES */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-10 left-10 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl animate-float-slow"></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-float-slower"></div>
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Calculate 0 to 1 progress as the section passes through the viewport
+      const start = rect.top - windowHeight;
+      const end = rect.height + windowHeight;
+      
+      // Math to determine how far we've scrolled past the start of the section
+      let progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+      
+      // Clamp between 0 and 1
+      progress = Math.min(Math.max(progress, 0), 1);
+      
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 2. INTERSECTION OBSERVER (Reveals list items)
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const hiddenElements = document.querySelectorAll('.scroll-hidden');
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => hiddenElements.forEach((el) => observer.unobserve(el));
+  }, []);
+
+  return (
+    <section 
+      ref={sectionRef} 
+      className="relative py-24 px-6 md:px-12 overflow-hidden min-h-[150vh]" 
+      id="objectives"
+    >
+      
+      {/* ================= BACKGROUND IMAGE (Restricted to Section) ================= */}
+      {/* Changed 'fixed' to 'absolute' so it stays INSIDE this section only */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 flex items-center justify-center overflow-hidden">
+         <img 
+            src={objBg} 
+            alt="Background Decoration" 
+            className="w-[600px] md:w-[900px] object-contain opacity-10 transition-transform duration-75 ease-linear will-change-transform"
+            style={{
+                // Rotates and scales based on how far you have scrolled IN THIS SECTION
+                transform: `rotate(${scrollProgress * 180}deg) scale(${0.8 + scrollProgress * 0.4})`
+            }}
+         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row gap-16">
         
-        {/* SECTION HEADER */}
-        <div className="text-center mb-16 opacity-0 animate-fade-in" style={{ animationDelay: '0ms' }}>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-900 mb-4 tracking-tight">
-            Objectives of <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">SamShoDhana</span>
-          </h2>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
-          <p className="mt-4 text-xl text-gray-700 max-w-2xl mx-auto">
-            A transformative initiative to strengthen Karnataka's rural MSME ecosystem.
-          </p>
+        {/* ================= LEFT SIDE: STICKY TITLE ================= */}
+        <div className="md:w-1/3">
+            <div className="sticky top-32 scroll-hidden left-slide">
+                <h2 className="text-5xl md:text-7xl font-extrabold text-blue-900 mb-6 leading-tight">
+                    Our <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                        Objectives
+                    </span>
+                </h2>
+                <div className="w-20 h-2 bg-blue-600 rounded-full mb-6"></div>
+                <p className="text-xl text-gray-700 font-medium">
+                    Driving innovation and digital transformation across Karnataka's MSME ecosystem.
+                </p>
+            </div>
         </div>
 
-        {/* CARDS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {objectives.map((obj, index) => (
-            <div 
-              key={obj.id}
-              className={`
-                group relative bg-white/40 backdrop-blur-md border border-white/60 p-8 rounded-2xl shadow-lg 
-                hover:shadow-2xl hover:-translate-y-2 hover:bg-white/60 transition-all duration-300
-                opacity-0 animate-fade-in-up
-                ${index === 6 ? 'md:col-span-2 lg:col-span-3 lg:w-2/3 lg:mx-auto' : ''} /* Centers the last odd item */
-              `}
-              style={{ animationDelay: `${index * 150}ms` }} // Staggered delay: 0ms, 150ms, 300ms...
-            >
-              
-              {/* Card Icon Bubble */}
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-100 to-white rounded-xl shadow-inner flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300 border border-white">
-                {obj.icon}
-              </div>
-
-              {/* Text Content */}
-              <h3 className="text-xl font-bold text-indigo-900 mb-3 group-hover:text-blue-600 transition-colors">
-                {obj.id}. {obj.title}
-              </h3>
-              <p className="text-gray-700 leading-relaxed font-medium">
-                {obj.desc}
-              </p>
-
-              {/* Decorative Corner Gradient */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-400/10 to-transparent rounded-tr-2xl pointer-events-none"></div>
-            </div>
-          ))}
+        {/* ================= RIGHT SIDE: LIST ITEMS ================= */}
+        <div className="md:w-2/3 space-y-8 pb-20">
+            {objectives.map((obj, index) => (
+                <div 
+                    key={obj.id} 
+                    className="scroll-hidden bottom-slide group relative bg-white/60 backdrop-blur-md border-l-8 border-blue-600 p-8 rounded-r-2xl shadow-lg hover:bg-white hover:shadow-2xl transition-all duration-300"
+                >
+                    <div className="flex items-start gap-6">
+                        <div className="w-16 h-16 bg-blue-900 text-white text-2xl font-bold flex items-center justify-center rounded-lg shadow-md shrink-0 group-hover:scale-110 transition-transform">
+                            {obj.id}
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                                {obj.title}
+                            </h3>
+                            <p className="text-lg text-gray-700 leading-relaxed">
+                                {obj.desc}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            ))}
         </div>
 
       </div>
 
-      {/* STYLES FOR ANIMATIONS */}
       <style>{`
-        /* 1. Fade In Title */
-        @keyframes fadeIn {
-          to { opacity: 1; }
-        }
-        .animate-fade-in {
-          animation: fadeIn 1s ease-out forwards;
-        }
-
-        /* 2. Slide Up Cards */
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        /* 3. Floating Background Blobs */
-        @keyframes float {
-          0% { transform: translate(0, 0); }
-          50% { transform: translate(20px, -20px); }
-          100% { transform: translate(0, 0); }
-        }
-        .animate-float-slow {
-          animation: float 6s ease-in-out infinite;
-        }
-        .animate-float-slower {
-          animation: float 10s ease-in-out infinite reverse;
-        }
+        .scroll-hidden { opacity: 0; transition: all 1s ease-out; }
+        .left-slide { transform: translateX(-100px); }
+        .bottom-slide { transform: translateY(100px); }
+        .show { opacity: 1; transform: translateX(0) translateY(0); }
       `}</style>
-
     </section>
   );
 };
