@@ -9,7 +9,6 @@ import Incentives from './components/Incentives';
 function App() {
   return (
     <div className="overflow-x-hidden">
-      {/* Background wrapper is handled in index.css */}
       
       <Navbar />
       
@@ -34,7 +33,7 @@ function App() {
       </div>
       
       {/* Simple Footer */}
-      <footer className="text-center py-8 text-gray-60 text-sm bg-indigo/50">
+      <footer id='footer' className="text-center py-8 text-gray-60 text-sm bg-indigo/50">
         © 2026 SamShoDhana Program. All rights reserved.
       </footer>
     </div>

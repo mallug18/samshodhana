@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import robotHand from '../assets/robot.webp';
+import robotHand from '../assets/robot.webp'; // Ensure path is correct
 
 const WhyMSME = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false); // State to track mobile screen
 
   const points = [
     {
@@ -31,10 +32,22 @@ const WhyMSME = () => {
     }
   ];
 
-  
+  // Mobile Detection Logic
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is the standard MD breakpoint
+    };
+    
+    // Set initial value
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const bgPositions = [
     "95% 90%",  // Far Right Center
-    "90% 80%",  // Far Left Top (Behind the flower)
+    "90% 80%",  // Far Left Top
     "80% 90%",  // Bottom Right
     "80% 45%"   // Top Center
   ];
@@ -47,35 +60,40 @@ const WhyMSME = () => {
   }, [points.length]);
 
   return (
-    // CHANGE 1: MOVED BACKGROUND STYLES HERE (to the <section> tag)
     <section 
+      id="why-msme"
       className="min-h-[600px] px-4 md:px-12 py-16 relative overflow-hidden flex items-center justify-start transition-all duration-1000"
       style={{
         backgroundImage: `url(${robotHand})`,
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '500px', // Set a fixed size so it doesn't look too huge
-        backgroundPosition: bgPositions[activeIndex], // Moves across the whole section
+        // Responsive Background Size: 300px on mobile, 500px on desktop
+        backgroundSize: isMobile ? '300px' : '500px', 
+        backgroundPosition: bgPositions[activeIndex],
         transition: 'background-position 3000ms ease-in-out'
       }}
     >
       
       <div className="flex flex-col md:flex-row items-center w-full max-w-7xl gap-12 md:gap-24 relative z-10">
         
-        {/* ================= LEFT SIDE: THE ROTATING FLOWER ================= */}
-        <div className="relative w-[350px] h-[350px] md:w-[450px] md:h-[450px] flex-shrink-0 flex items-center justify-center ml-0 md:ml-10">
+        {/* Adjusted width/height for mobile (300px) vs desktop (450px) */}
+        <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] flex-shrink-0 flex items-center justify-center ml-0 md:ml-10">
           
           <div 
             className="absolute w-full h-full transition-transform duration-700 ease-in-out"
             style={{ transform: `rotate(-${activeIndex * 90}deg)` }}
           >
             {points.map((point, index) => {
-              const rotation = index * 90; 
+              const rotation = index * 90;
+              // DYNAMIC RADIUS: 130px for Mobile, 180px for Desktop
+              const radius = isMobile ? 130 : 180; 
+
               return (
                 <div
                   key={point.id}
-                  className="absolute top-1/2 left-1/2 w-32 h-24 md:w-40 md:h-28 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-md border border-white/60 flex items-center justify-center text-center p-2 shadow-lg"
+                  className="absolute top-1/2 left-1/2 w-28 h-20 md:w-40 md:h-28 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-md border border-white/60 flex items-center justify-center text-center p-2 shadow-lg"
                   style={{
-                    transform: `translate(-50%, -50%) rotate(${rotation}deg) translate(180px) rotate(45deg)`,
+                    // Use the dynamic 'radius' variable here
+                    transform: `translate(-50%, -50%) rotate(${rotation}deg) translate(${radius}px) rotate(45deg)`,
                     borderRadius: '0px 60px 0px 60px' 
                   }}
                 >
@@ -94,11 +112,12 @@ const WhyMSME = () => {
             </div>
           </div>
 
+          {/* ARROW: HIDDEN ON MOBILE (md:block) */}
           <div 
-            className="absolute z-10 bg-blue-500/20 backdrop-blur-sm"
+            className="hidden md:block absolute z-10 bg-blue-500/20 backdrop-blur-sm"
             style={{
                 top: '50%', 
-                left: '45%', 
+                left: '45%', // Keep original position for Desktop
                 width: '140px', 
                 height: '60px', 
                 transform: 'translateY(-50%)',
@@ -108,14 +127,13 @@ const WhyMSME = () => {
         </div>
 
         {/* ================= RIGHT SIDE: CONTENT ================= */}
-        <div className="flex-1 relative min-h-[300px] flex flex-col justify-center pl-12 pr-8">
-            {/* CHANGE 2: Added a glass effect here so text is readable if the robot hand passes behind it */}
-            <div key={activeIndex} className="animate-fade-in-up mb-8 relative z-10 bg-white/30 backdrop-blur-sm p-8 rounded-2xl border border-white/40 shadow-sm">
-                <h2 className="text-4xl md:text-5xl font-bold text-indigo-900 mb-6 leading-tight drop-shadow-sm">
+        <div className="flex-1 relative min-h-[250px] md:min-h-[300px] flex flex-col justify-center px-4 md:pl-12 md:pr-8">
+            <div key={activeIndex} className="animate-fade-in-up mb-8 relative z-10 bg-white/30 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white/40 shadow-sm">
+                <h2 className="text-3xl md:text-5xl font-bold text-indigo-900 mb-4 md:mb-6 leading-tight drop-shadow-sm">
                     {points[activeIndex].title}
                 </h2>
-                <div className="h-1 w-24 bg-blue-500 mb-6 rounded-full"></div>
-                <p className="text-xl text-gray-900 leading-relaxed font-medium">
+                <div className="h-1 w-24 bg-blue-500 mb-4 md:mb-6 rounded-full"></div>
+                <p className="text-lg md:text-xl text-gray-900 leading-relaxed font-medium">
                     {points[activeIndex].desc}
                 </p>
             </div>
