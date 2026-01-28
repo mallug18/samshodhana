@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import robotHand from '../assets/robot.webp'; // Ensure path is correct
+import robotHand from '../assets/robot.png'; // Ensure path is correct
 
 const WhyMSME = () => {
   const [activeIndex, setActiveIndex] = useState(0);
