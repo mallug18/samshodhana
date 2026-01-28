@@ -11,7 +11,7 @@
 
 /* Global Styles */
 body {
-  background: linear-gradient(135deg, #9eadf7 0%, #72f2e5d7 50%, #72559d97 100%);
+  background: repeating-linear-gradient(135deg, #9eadf7 0%, #72f2e5d7 50%, #72559d97 100%);
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
 }
