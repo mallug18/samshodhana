@@ -90,7 +90,7 @@ const WhyMSME = () => {
               return (
                 <div
                   key={point.id}
-                  className="absolute top-1/2 left-1/2 w-28 h-20 md:w-40 md:h-28 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-md border border-white/60 flex items-center justify-center text-center p-2 shadow-lg"
+                  className="absolute top-1/2 left-1/2 w-28 h-20 md:w-40 md:h-28 bg-gradient-to-br from-white/80 to-white/10 backdrop-blur-md border border-white/60 flex items-center justify-center text-center p-2 shadow-lg"
                   style={{
                     // Use the dynamic 'radius' variable here
                     transform: `translate(-50%, -50%) rotate(${rotation}deg) translate(${radius}px) rotate(45deg)`,
@@ -105,7 +105,7 @@ const WhyMSME = () => {
             })}
           </div>
 
-          <div className="absolute z-20 w-32 h-32 md:w-48 md:h-48 rounded-full bg-white shadow-[0_0_40px_rgba(59,130,246,0.3)] flex items-center justify-center border-4 border-blue-100">
+          <div className="absolute z-20 w-32 h-32 md:w-48 md:h-48 rounded-full bg-white/40 shadow-[0_0_40px_rgba(59,130,246,0.5)] flex items-center justify-center border-4 border-blue-100">
             <div className="text-center">
                 <span className="block text-blue-900 font-bold text-xl md:text-2xl">Why</span>
                 <span className="block text-blue-600 font-bold text-lg md:text-xl">MSME?</span>
@@ -128,7 +128,7 @@ const WhyMSME = () => {
 
         {/* ================= RIGHT SIDE: CONTENT ================= */}
         <div className="flex-1 relative min-h-[250px] md:min-h-[300px] flex flex-col justify-center px-4 md:pl-12 md:pr-8">
-            <div key={activeIndex} className="animate-fade-in-up mb-8 relative z-10 bg-white/30 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white/40 shadow-sm">
+            <div key={activeIndex} className="animate-fade-in-up mb-8 relative z-10 bg-white/5 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white/40 shadow-sm">
                 <h2 className="text-3xl md:text-5xl font-bold text-indigo-900 mb-4 md:mb-6 leading-tight drop-shadow-sm">
                     {points[activeIndex].title}
                 </h2>
