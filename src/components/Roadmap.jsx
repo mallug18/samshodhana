@@ -116,7 +116,7 @@ const Roadmap = () => {
 
         {/* 2. Dynamic ORANGE Line */}
         <div 
-            className="absolute left-8 md:left-1/2 top-0 w-1.5 bg-orange-500 transform md:-translate-x-1/2 rounded-full transition-all duration-90 ease-linear shadow-[0_0_10px_rgba(249,115,22,0.6)]"
+            className="absolute left-8 md:left-1/2 top-0 w-1.5 bg-green-500 transform md:-translate-x-1/2 rounded-full transition-all duration-90 ease-linear shadow-[0_0_10px_rgba(249,115,22,0.6)]"
             style={{ height: `${lineHeight}%` }}
         ></div>
 
@@ -127,7 +127,7 @@ const Roadmap = () => {
               {/* CENTER DOT */}
               <div 
                 className={`absolute left-8 md:left-1/2 w-6 h-6 rounded-full transform -translate-x-1/2 z-20 border-4 transition-colors duration-500
-                    ${lineHeight > ((index + 0.5) / roadmapSteps.length) * 100 ? 'bg-orange-500 border-orange-200' : 'bg-white border-gray-300'}
+                    ${lineHeight > ((index + 0.5) / roadmapSteps.length) * 100 ? 'bg-green-500 border-green-200' : 'bg-white border-gray-300'}
                 `}
               ></div>
 

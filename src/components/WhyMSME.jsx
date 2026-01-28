@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import robotHand from '../assets/robot.png';
+import robotHand from '../assets/robot.webp';
 
 const WhyMSME = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -31,13 +31,12 @@ const WhyMSME = () => {
     }
   ];
 
-  // UPDATED POSITIONS: Coordinates for the entire section width
-  // 100% is far right, 0% is far left. 
+  
   const bgPositions = [
-    "95% 50%",  // Far Right Center
-    "10% 20%",  // Far Left Top (Behind the flower)
+    "95% 90%",  // Far Right Center
+    "90% 80%",  // Far Left Top (Behind the flower)
     "80% 90%",  // Bottom Right
-    "50% 10%"   // Top Center
+    "80% 45%"   // Top Center
   ];
 
   useEffect(() => {
